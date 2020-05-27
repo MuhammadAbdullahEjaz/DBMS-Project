@@ -1,0 +1,121 @@
+body{
+    font-family: Lucida Console, Courier, monospace;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
+    background-color: gainsboro ;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    padding-top: 20px;
+    min-height:70px ;
+    border-bottom: go 5px solid;
+}
+
+header h1{
+    margin: 0;
+}
+header #branding{
+    float: left;
+}
+
+header #nav-link{
+    float: right;
+    margin-top: 15px;
+}
+header li {
+    display: inline;
+    padding: 0 5px 0 5px;
+}
+header a{
+    background-color: white;
+    color: grey;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 50px;
+}
+header a:hover{
+    background-color: whitesmoke;
+}
+
+#selection{
+    padding-top: 25px;
+    background-color: #ffffff;
+    min-height: 70px;
+}
+#select{
+   display: flex;
+   justify-content: center;
+}
+.select-btn{
+    background-color: gold;
+    margin: 0 20px 0 20px;
+    width: 150px;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 0 15px 0;
+    font-size:16px;
+}
+.select-btn:hover, .select-btn:focus{
+    background-color:orange;
+    color: #ffffff;
+    font-weight: bolder;
+    outline: none;
+}
+
+.divider{
+    width: 100%;
+    border-bottom: gold 10px solid;
+    border-radius: 150px;
+}
+
+#menu-item{
+    width: 75%;
+    margin: auto;
+    margin-top: 30px;
+}
+.menu-item-container {
+    background-color: white;
+    width: 23%;
+    padding: 15px;
+    border-radius: 5px;
+    float: left;
+    margin: 15px;
+}
+.menu-item-container img{
+    height: 200px;
+    width: 100%;
+}
+
+.menu-item-container div{
+    width: 100%;
+}
+
+.menu-item-container .name{
+    display: inline-block;
+    width: 40%;
+    float: left;
+}
+
+.menu-item-container .price{
+    display: inline-block;
+    width: 40%;
+    float: right;
+}
+
+.menu-item-container .serving{
+    float: none;
+}

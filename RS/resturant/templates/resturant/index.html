@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{%  load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'resturant/index.css' %}">
+    <script>
+        var imag = "{% static 'resturant/images' %}";
+    </script>
+    <script src="{% static 'resturant/index.js' %}"></script>
+    <title>Resturant</title>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Restaurant</h1>
+            </div id="nav">
+            <nav>
+                <ul id="nav-link">
+                    <li> <a href="">Sign In</a></li>
+                    <li> <a href=""> Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="selection">
+        <div class="container">
+            <div id="select">
+                <button class="select-btn" data-category="breakfast">Breakfast</button>
+                <button class="select-btn" data-category="main-course">Main Course</button>
+                <button class="select-btn" data-category="cold-beverage">Cold Beverage</button>
+                <button class="select-btn" data-category="hot-beverage">Hot Beverage</button>
+                <button class="select-btn" data-category="dessert">Dessert</button>
+            </div>
+        </div>
+    </section>
+    <div class="divider"></div>
+    <section id="menu">
+        <div class="container">
+            <div id="menu-item">
+                <div class="menu-item-container">
+                    <div class="item-image">
+                        <img src="{%static 'resturant/images/Unda_Pratha.jfif' %}" alt="">
+                    </div>
+                    <p class="name">name</p>
+                    <p class="price">price</p>
+                    <p class="serving">serving</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

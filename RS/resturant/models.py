@@ -18,7 +18,7 @@ class FoodItem(models.Model):
     serving  = models.IntegerField(default=1)
 
     def __str__(self):
-        return f'{self.name} - {self.category}'
+        return f'{self.name}'
 
 class Menu(models.Model):
     startDate = models.DateTimeField(auto_now = True)
@@ -26,9 +26,5 @@ class Menu(models.Model):
     FoodItems = models.ManyToManyField(FoodItem, related_name = 'Food') 
 
     def __str__(self):
-        food = self.FoodItems.all()
-        items = ''
-        for f in food:
-            items += f'{f}' + ' | '
-        return items
+        return f'{self.startDate} -- {self.endDate}'
     
