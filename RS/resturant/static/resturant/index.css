@@ -7,6 +7,10 @@ body{
     background-color: gainsboro ;
 }
 
+p{
+    padding: 0;
+    margin: 0;
+}
 .container {
     width: 80%;
     margin: auto;
@@ -83,13 +87,13 @@ header a:hover{
 }
 
 #menu-item{
-    width: 75%;
+    width: 85%;
     margin: auto;
     margin-top: 30px;
 }
 .menu-item-container {
     background-color: white;
-    width: 23%;
+    width: 27%;
     padding: 15px;
     border-radius: 5px;
     float: left;
@@ -100,22 +104,21 @@ header a:hover{
     width: 100%;
 }
 
-.menu-item-container div{
+.menu-item-container .item-image{
     width: 100%;
 }
 
 .menu-item-container .name{
     display: inline-block;
-    width: 40%;
     float: left;
 }
 
 .menu-item-container .price{
     display: inline-block;
-    width: 40%;
     float: right;
 }
-
 .menu-item-container .serving{
-    float: none;
+    display: block;
+    clear: both;
+    text-align: center;
 }
