@@ -8,4 +8,6 @@ urlpatterns = [
     path('hot-beverage/',views.get_hot_beverage, name = "breakfast"),
     path('cold-beverage/',views.get_cold_beverage, name = "breakfast"),
     path('dessert/',views.get_dessert, name = "breakfast"),
+    path('signup/', views.signup, name = "signup"),
+    path('user/', views.user_auth, name= "check_auth"),
 ]

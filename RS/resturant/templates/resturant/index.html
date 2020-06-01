@@ -9,7 +9,6 @@
     <script>
         var imag = "{% static 'resturant/images' %}";
     </script>
-    <script src="{% static 'resturant/index.js' %}"></script>
     <title>Resturant</title>
 </head>
 
@@ -21,7 +20,7 @@
             </div id="nav">
             <nav>
                 <ul id="nav-link">
-                    <li> <a href="">Sign In</a></li>
+                    <li> <a href="" id="signin">Sign In</a></li>
                     <li> <a href=""> Cart</a></li>
                 </ul>
             </nav>
@@ -60,6 +59,75 @@
             </div>
         </div>
     </section>
+
+
+    <div class="div-form" id="div-form">
+        <div class="div-close">
+            <button class="close-button" id="close2">&#x2716;</button>
+        </div>
+        <div class="form-heading">
+            <h2>Register</h2>
+        </div>
+        <form action="signup/" method="post"> {% csrf_token %}
+
+            <div id="div-username">
+                <label for="username">Username</label>
+                <input type="text" name="username" class="username" maxlength="30">
+            </div>
+            <div id="div-firstname">
+                <label for="firstname">First Name</label>
+                <input type="text" name="firstname" class="first_name" maxlength="30">
+            </div>
+            <div id="div-lastname">
+                <label for="lastname">Last Name</label>
+                <input type="text" name="lastname" class="lastname" maxlength="30">
+            </div>
+            <div id="div-email">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="email" maxlength="30">
+            </div>
+            <div id="div-password">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="password" maxlength="30">
+            </div>
+            <div id="div-submit">
+                <input type="submit" value="Register" class="submit" id="submitreg">
+            </div>
+        </form>
+        <div id="div-register">
+            <p>Memeber ! Wana <a href="" id="login">Sign In</a> ?</p>
+        </div>
+    </div>
+
+
+    <div class="div-form-signin" id="div-form-signin">
+        <div class="div-close">
+            <button class="close-button" id="close1">&#x2716;</button>
+        </div>
+        <div class="form-heading">
+            <h2>Sign In</h2>
+        </div>
+        <form  method="POST"> {% csrf_token %}
+
+            <div id="div-username">
+                <label for="username">Username</label>
+                <input type="text" name="username" class="username" maxlength="30">
+            </div>
+            <div id="div-password">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="password" maxlength="30">
+            </div>
+            <div id="div-submit">
+                <input type="submit" value="Sign In" class="submit" id="submitlog">
+            </div>
+        </form>
+        <div id="div-register">
+            <p>Not a memeber. Wana <a href="" id="register">Register</a> ?</p>
+        </div>
+    </div>
+
+    <div id="overlay" class=""></div>
 </body>
+<script src="{% static 'resturant/index.js' %}"></script>
 
 </html>

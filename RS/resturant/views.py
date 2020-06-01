@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from datetime import date
 from .models import Menu, FoodItem
 from django.core import serializers
+import json
 
 
 # Create your views here.
@@ -56,3 +57,19 @@ def get_dessert(request):
         return HttpResponse(foodItem_json)
     else:
         return HttpResponse({'error':'empty'})
+
+def signup(request):
+    if request.method == 'POST':
+        print(request.POST)
+        return HttpResponse("sucess");
+    else:
+        return HttpResponse("error");
+
+
+def user_auth(request):
+    if request.user.is_authenticated:
+        usr = {"auth":False}
+        return HttpResponse(json.dumps(usr))
+    else:
+        usr = {"auth":True}
+        return HttpResponse(json.dumps(usr))

@@ -122,3 +122,119 @@ header a:hover{
     clear: both;
     text-align: center;
 }
+
+/**********************************************************/
+/*Form */
+/**********************************************************/
+
+.div-close{
+    text-align: right;
+}
+.close-button{
+    cursor:pointer;
+    outline: none;
+    border: none;
+    background-color: white;
+    font-size: large;
+    font-weight: bold;
+}
+
+.form-heading{
+    text-align: center;
+}
+
+.div-form {
+    border: 3px solid gold;
+    border-radius: 35px;
+    position: fixed;
+    background-color: white;
+    max-width: 460px;
+    min-height: 360px;
+    padding: 20px;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+}
+
+.div-form.active{
+    transform: translate(-50%, -50%) scale(1);
+}
+
+form div{
+    margin:10px 0px ;
+}
+form input{
+    border: burlywood 1px solid;
+    border-radius: 50px;
+    height: 30px;
+    padding-left: 10px;
+}
+
+form input:focus{
+    outline: none;
+}
+#div-firstname,#div-lastname {
+    margin-top: 0;
+    margin-bottom: 0;
+    display: inline-block;
+    width: 48%;
+}
+
+.username, .email, .password, .submit{
+    width: 100%;
+}
+
+.submit{
+    font-size: large;
+    background-color: chartreuse;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    cursor: pointer;
+    color:grey;
+}
+
+label {
+    display: block;
+    width: 100px;
+}
+
+#overlay{
+    position: fixed;
+    transition: 200ms ease-in-out;
+    opacity: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+#overlay.active{
+    opacity: 1;
+    pointer-events: all;
+}
+
+#div-register{
+    text-align:  center;
+}
+
+.div-form-signin {
+    border: 3px solid gold;
+    border-radius: 35px;
+    position: fixed;
+    background-color: white;
+    max-width: 460px;
+    min-height: 360px;
+    padding: 20px;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+}
+.div-form-signin.active{
+    transform: translate(-50%, -50%) scale(1);
+}
