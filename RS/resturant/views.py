@@ -12,7 +12,8 @@ def resturant_view(request):
     return render(request, "resturant/index.html")
 
 def get_breakfast(request):
-    menu = Menu.objects.filter(startDate__date = date.today())
+    menu = Menu.objects.filter(pk=7)
+    print(menu)
     if menu:
         foodItems = list(menu[0].FoodItems.filter(category='b'))
         foodItem_json = serializers.serialize('json', foodItems)
@@ -21,7 +22,7 @@ def get_breakfast(request):
         return HttpResponse({'error':'empty'})
 
 def get_main_course(request):
-    menu = Menu.objects.filter(startDate__date = date.today())
+    menu = Menu.objects.filter(pk=7)
     if menu:
         foodItems = list(menu[0].FoodItems.filter(category='m'))
         foodItem_json = serializers.serialize('json', foodItems)
@@ -30,7 +31,7 @@ def get_main_course(request):
         return HttpResponse({'error':'empty'})
 
 def get_cold_beverage(request):
-    menu = Menu.objects.filter(startDate__date = date.today())
+    menu = Menu.objects.filter(pk=7)
     if menu:
         foodItems = list(menu[0].FoodItems.filter(category='c'))
         foodItem_json = serializers.serialize('json', foodItems)
@@ -40,7 +41,7 @@ def get_cold_beverage(request):
 
 
 def get_hot_beverage(request):
-    menu = Menu.objects.filter(startDate__date = date.today())
+    menu = Menu.objects.filter(pk=7)
     if menu:
         foodItems = list(menu[0].FoodItems.filter(category='h'))
         foodItem_json = serializers.serialize('json', foodItems)
@@ -50,7 +51,7 @@ def get_hot_beverage(request):
 
 
 def get_dessert(request):
-    menu = Menu.objects.filter(startDate__date = date.today())
+    menu = Menu.objects.filter(pk=7)
     if menu:
         foodItems = list(menu[0].FoodItems.filter(category='d'))
         foodItem_json = serializers.serialize('json', foodItems)

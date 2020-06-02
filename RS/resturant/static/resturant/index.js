@@ -69,6 +69,7 @@ function load_menu(name) {
     request.open('GET', `/${name}`);
     request.onload = () => {
         document.querySelector('#menu-item').innerHTML = ""
+        console.log(request.responseText);
         const response = JSON.parse(request.responseText);
         Array.from(response).forEach((item) => {
             add_item(item);
