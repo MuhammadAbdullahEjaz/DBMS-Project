@@ -238,3 +238,57 @@ label {
 .div-form-signin.active{
     transform: translate(-50%, -50%) scale(1);
 }
+
+/*************************************/
+/*************FORM ERRORS*************/
+/*************************************/
+
+.error{
+    color: red;
+    font-size: smaller;
+}
+
+
+/**************************************/
+/**********SUCESS NOTE******************/
+/**************************************/
+
+#div-sucess{
+    text-align: center;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    position: fixed;
+    z-index: 10;
+    background-color: green;
+    min-height: 20px;
+    min-width: 100%;
+    top: 0;
+    left: 50%;
+    transition: 600ms ease-in-out;
+    transform: translate(-50%, 0) scale(0);
+}
+
+#div-sucess.active{
+    transform: translate(-50%, 0) scale(1);
+}
+
+#div-error{
+    text-align: center;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    position: fixed;
+    z-index: 10;
+    background-color: red;
+    min-height: 20px;
+    min-width: 100%;
+    top: 0;
+    left: 50%;
+    transition: 600ms ease-in-out;
+    transform: translate(-50%, 0) scale(0);
+}
+
+#div-error.active{
+    transform: translate(-50%, 0) scale(1);
+}

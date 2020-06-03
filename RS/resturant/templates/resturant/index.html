@@ -61,7 +61,7 @@
     </section>
 
 
-    <div class="div-form" id="div-form">
+    <div class="div-form" id="div-form-register">
         <div class="div-close">
             <button class="close-button" id="close2">&#x2716;</button>
         </div>
@@ -71,24 +71,29 @@
         <form action="signup/" method="post"> {% csrf_token %}
 
             <div id="div-username">
+                <div id="usernameregerror" class="error"></div>
                 <label for="username">Username</label>
-                <input type="text" name="username" class="username" maxlength="30">
+                <input type="text" name="username" class="username" maxlength="30" id="usernamereg">
             </div>
             <div id="div-firstname">
+                <div id="firstnameregerror" class="error"></div>
                 <label for="firstname">First Name</label>
-                <input type="text" name="firstname" class="first_name" maxlength="30">
+                <input type="text" name="firstname" class="first_name" maxlength="30" id="firstnamereg">
             </div>
             <div id="div-lastname">
+                <div id="lastnameregerror" class="error"></div>
                 <label for="lastname">Last Name</label>
-                <input type="text" name="lastname" class="lastname" maxlength="30">
+                <input type="text" name="lastname" class="lastname" maxlength="30" id="lastnamereg"> 
             </div>
             <div id="div-email">
+                <div id="emailregerror" class="error"></div>
                 <label for="email">Email</label>
-                <input type="email" name="email" class="email" maxlength="30">
+                <input type="email" name="email" class="email" maxlength="30" id="emailreg">
             </div>
             <div id="div-password">
+                <div id="passwordregerror" class="error"></div>
                 <label for="password">Password</label>
-                <input type="password" name="password" class="password" maxlength="30">
+                <input type="password" name="password" class="password" maxlength="30" id="passwordreg">
             </div>
             <div id="div-submit">
                 <input type="submit" value="Register" class="submit" id="submitreg">
@@ -108,14 +113,16 @@
             <h2>Sign In</h2>
         </div>
         <form  method="POST"> {% csrf_token %}
-
+            <div id="logerror" class="error"></div>
             <div id="div-username">
+                <div id="usernamelogerror" class="error"></div>
                 <label for="username">Username</label>
-                <input type="text" name="username" class="username" maxlength="30">
+                <input type="text" name="username" class="username" maxlength="30" id="usernamelog">
             </div>
             <div id="div-password">
+                <div id="passwordlogerror" class="error"></div>
                 <label for="password">Password</label>
-                <input type="password" name="password" class="password" maxlength="30">
+                <input type="password" name="password" class="password" maxlength="30" id="passwordlog">
             </div>
             <div id="div-submit">
                 <input type="submit" value="Sign In" class="submit" id="submitlog">
@@ -125,7 +132,8 @@
             <p>Not a memeber. Wana <a href="" id="register">Register</a> ?</p>
         </div>
     </div>
-
+    <div id="div-sucess" class="">hello</div>
+    <div id="div-error" class="">hello</div>
     <div id="overlay" class=""></div>
 </body>
 <script src="{% static 'resturant/index.js' %}"></script>
