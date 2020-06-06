@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'resturant/index.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
         var imag = "{% static 'resturant/images' %}";
     </script>
@@ -21,7 +22,7 @@
             <nav>
                 <ul id="nav-link">
                     <li> <a href="" id="signin">Sign In</a></li>
-                    <li> <a href=""> Cart</a></li>
+                    <li> <a href="" id="cartbutton">Cart</a></li>
                 </ul>
             </nav>
         </div>
@@ -55,6 +56,9 @@
                     <div class="serving">
                         <p>1</p>
                     </div>
+                    <div class="cart-btn-div">
+                        <button data-item="" class="cart-btn">Add to Cart</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,7 +87,7 @@
             <div id="div-lastname">
                 <div id="lastnameregerror" class="error"></div>
                 <label for="lastname">Last Name</label>
-                <input type="text" name="lastname" class="lastname" maxlength="30" id="lastnamereg"> 
+                <input type="text" name="lastname" class="lastname" maxlength="30" id="lastnamereg">
             </div>
             <div id="div-email">
                 <div id="emailregerror" class="error"></div>
@@ -112,7 +116,7 @@
         <div class="form-heading">
             <h2>Sign In</h2>
         </div>
-        <form  method="POST"> {% csrf_token %}
+        <form method="POST"> {% csrf_token %}
             <div id="logerror" class="error"></div>
             <div id="div-username">
                 <div id="usernamelogerror" class="error"></div>
@@ -135,6 +139,86 @@
     <div id="div-sucess" class="">hello</div>
     <div id="div-error" class="">hello</div>
     <div id="overlay" class=""></div>
+    <div id="cart-bar">
+        <div id="cart-scroll">
+            <div id="cart-bar-close">
+                <button id="close-cart">&#x2716;</button>
+            </div>
+            <div id="cart-bar-heading">
+                <h2>Cart Items</h2>
+            </div>
+            <div id="cart-tray">
+                <div class="cart-tray-item">
+                    <div class="item-tray-close-div">
+                      <button class="item-tray-close"><i class="fa fa-trash"></i></button>  
+                    </div>
+                    <div class="tray-item">
+                        <p class="tray-item-name">name</p>
+                        <p class="tray-item-price">price</p>
+                        <button class="q-neg">-</button>
+                        <button class="q">1</button>
+                        <button class="q-pos">+</button>
+                    </div>
+                </div>
+
+                <div class="cart-tray-item">
+                    <div class="item-tray-close-div">
+                      <button class="item-tray-close"><i class="fa fa-trash"></i></button>  
+                    </div>
+                    <div class="tray-item">
+                        <p class="tray-item-name">name</p>
+                        <p class="tray-item-price">price</p>
+                        <button class="q-neg">-</button>
+                        <button class="q">1</button>
+                        <button class="q-pos">+</button>
+                    </div>
+                </div>
+
+
+                <div class="cart-tray-item">
+                    <div class="item-tray-close-div">
+                      <button class="item-tray-close"><i class="fa fa-trash"></i></button>  
+                    </div>
+                    <div class="tray-item">
+                        <p class="tray-item-name">name</p>
+                        <p class="tray-item-price">price</p>
+                        <button class="q-neg">-</button>
+                        <button class="q">1</button>
+                        <button class="q-pos">+</button>
+                    </div>
+                </div>
+
+
+                <div class="cart-tray-item">
+                    <div class="item-tray-close-div">
+                      <button class="item-tray-close"><i class="fa fa-trash"></i></button>  
+                    </div>
+                    <div class="tray-item">
+                        <p class="tray-item-name">name</p>
+                        <p class="tray-item-price">price</p>
+                        <button class="q-neg">-</button>
+                        <button class="q">1</button>
+                        <button class="q-pos">+</button>
+                    </div>
+                </div>
+
+
+                <div class="cart-tray-item">
+                    <div class="item-tray-close-div">
+                      <button class="item-tray-close"><i class="fa fa-trash"></i></button>  
+                    </div>
+                    <div class="tray-item">
+                        <p class="tray-item-name">name</p>
+                        <p class="tray-item-price">price</p>
+                        <button class="q-neg">-</button>
+                        <button class="q">1</button>
+                        <button class="q-pos">+</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </body>
 <script src="{% static 'resturant/index.js' %}"></script>
 

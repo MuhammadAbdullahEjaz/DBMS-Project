@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from datetime import date
-from .models import Menu, FoodItem
+from .models import Menu, FoodItem, UserCart, Cart
 from django.core import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -80,7 +80,8 @@ def signup(request):
         user.first_name  = firstname
         user.last_name = lastname
         user.save()
-
+        cart =  UserCart.objects.create(user_id = user)
+        cart.save()
         return HttpResponse(json.dumps({"status":True}))
     else:
         return HttpResponse(json.dumps({"status":False, "error":"", "target":""}))
@@ -116,4 +117,96 @@ def user_auth(request):
         usr = {"auth":False}
         return HttpResponse(json.dumps(usr))
 
-    
+
+def add_to_c(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        item_id = request.POST.get('item_id')
+        food = list(FoodItem.objects.filter(pk = item_id))
+        usercart = list(UserCart.objects.filter(user_id = request.user))
+
+        if (usercart and food):
+            cart = list(Cart.objects.filter(cart_id= usercart[0], food_id = food[0]))
+            if cart:
+                if cart[0].quantity > 0 and cart[0].quantity < 6:
+                    cart[0].quantity += 1
+                    cart[0].save()
+                else:
+                    return HttpResponse(json.dumps({"status":False, "max":True}))
+            else:
+                Cart.objects.create(cart_id = usercart[0], food_id = food[0] , quantity = 1)
+            return HttpResponse(json.dumps({"status":True, "max":False}))
+    else:
+        return HttpResponse(json.dumps({"status":False, "max":False}))
+
+def get_c(request):
+    if request.user.is_authenticated:
+        user = request.user
+        usercart = list(UserCart.objects.filter(user_id = user))
+        user_items = list(Cart.objects.filter(cart_id = usercart[0]))
+        c =list()
+        for i in user_items:
+            i_name = i.food_id.name
+            i_price = i.food_id.Price
+            i_quantity = i.quantity
+            d = dict(item_name = i.food_id.name, item_price = float(i.food_id.Price), item_quantity = i_quantity, item_cart = i.id)
+            c.append(d)
+        context = {"status": True,"error":"" ,"user_items":c}
+        if user_items:
+            return HttpResponse(json.dumps(context))
+        else:
+            return HttpResponse(json.dumps({"status":True, "error":"No Item In the Cart"}))
+        #serializers.serialize('json', user_items)
+    else:
+        return HttpResponse(json.dumps({"status":False}))
+
+def remove_item_from_cart(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        cart_id = request.POST.get("cart_id")
+        user = request.user
+        usercart = list(UserCart.objects.filter(user_id = user))
+        cart = list(Cart.objects.filter(pk=cart_id))
+        if cart:
+            if (cart[0].cart_id.id == usercart[0].id):
+                cart[0].delete()
+                return HttpResponse(json.dumps({"status":True}))
+            else:
+                return HttpResponse(json.dumps({"status":False}))
+        else:
+            return HttpResponse(json.dumps({"status":False}))
+    else:
+        return HttpResponse(json.dumps({"status":False}))
+def neg_q(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        user = request.user
+        cart_id = request.POST.get('cart_id')
+        usercart = list(UserCart.objects.filter(user_id = user))
+        cart = list(Cart.objects.filter(pk=cart_id))
+        if cart:
+            if (cart[0].cart_id.id == usercart[0].id and cart[0].quantity > 1):
+                cart[0].quantity -= 1
+                cart[0].save()
+                return HttpResponse(json.dumps({"status":True, "item_quantity":cart[0].quantity}))
+            else:
+                return HttpResponse(json.dumps({"status":False}))
+        else:
+            return HttpResponse(json.dumps({"status":False}))
+    else:
+        return HttpResponse(json.dumps({"status":False}))
+
+def pos_q(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        user = request.user
+        cart_id = request.POST.get('cart_id')
+        usercart = list(UserCart.objects.filter(user_id = user))
+        cart = list(Cart.objects.filter(pk=cart_id))
+        if cart:
+            if (cart[0].cart_id.id == usercart[0].id and cart[0].quantity < 6):
+                cart[0].quantity += 1
+                cart[0].save()
+                return HttpResponse(json.dumps({"status":True, "item_quantity":cart[0].quantity}))
+            else:
+                return HttpResponse(json.dumps({"status":False}))
+        else:
+            return HttpResponse(json.dumps({"status":False}))
+    else:
+        return HttpResponse(json.dumps({"status":False}))

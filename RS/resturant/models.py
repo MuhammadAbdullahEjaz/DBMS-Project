@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 class FoodItem(models.Model):
@@ -28,3 +29,17 @@ class Menu(models.Model):
     def __str__(self):
         return f'{self.startDate} -- {self.endDate}'
     
+
+class UserCart(models.Model):
+    user_id = models.ForeignKey(User, on_delete = models.CASCADE, related_name="usercart")
+
+    def __str__(self):
+        return f"{self.user_id.username} -- {self.id}"
+
+class Cart(models.Model):
+    cart_id = models.ForeignKey(UserCart, on_delete = models.CASCADE)
+    food_id = models.ForeignKey(FoodItem, on_delete = models.CASCADE)
+    quantity = models.IntegerField(validators = [MaxValueValidator(6), MinValueValidator(1)])
+
+    def __str__(self):
+        return f"{self.cart_id} = ({self.food_id} | {self.quantity})"

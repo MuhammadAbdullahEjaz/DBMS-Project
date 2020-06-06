@@ -12,4 +12,9 @@ urlpatterns = [
     path('user/', views.user_auth, name= "check_auth"),
     path('signin/', views.signin, name="signin"),
     path('logout_v/', views.logout_v, name="logoutv"),
+    path('addToc/', views.add_to_c, name = "add_to_c"),
+    path('getcart/', views.get_c, name="get_cart"),
+    path('remItemC/', views.remove_item_from_cart, name="remItemC"),
+    path('minusItem/', views.neg_q, name="minusItem"),
+    path('plusItem/', views.pos_q, name="plusItem"),
 ]

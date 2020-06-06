@@ -1,7 +1,7 @@
 const register_div = document.querySelector('#div-form-register');
 const signin_div = document.querySelector('#div-form-signin');
 const overlay_div = document.querySelector('#overlay');
-
+const csrf_g = document.querySelector("[name = csrfmiddlewaretoken]").value;
 
 document.addEventListener('DOMContentLoaded', () => {
     load_menu('breakfast');
@@ -9,9 +9,49 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.select-btn').forEach(link => {
         link.onclick = () => {
             load_menu(link.dataset.category);
-            return false;
+
+            //return false;
         };
     });
+
+    document.querySelector('#cartbutton').onclick = () => {
+        const request = new XMLHttpRequest();
+        request.open('GET', 'user/');
+        request.onload = () => {
+            const response = JSON.parse(request.responseText);
+            if (!response.auth) {
+                popup_signin_div();
+                return false;
+            };
+            if (response.auth) {
+                const req = new XMLHttpRequest();
+                req.open('GET', 'getcart/');
+
+                req.onload = () => {
+                    const rep = req.responseText;
+                    rep_json = JSON.parse(rep);
+                    if (rep_json.status) {
+                        document.querySelector("#cart-tray").innerHTML = ""
+                        Array.from(rep_json.user_items).forEach((item) => {
+                            add_item_to_cart(item);
+                        });
+                    }
+                };
+
+                req.send();
+
+                popup_cart_bar();
+                return false;
+
+            }
+        };
+        request.send();
+        return false;
+    };
+
+    document.querySelector("#close-cart").onclick = () => {
+        popdown_cart_bar();
+    };
 
     document.querySelector('#signin').onclick = () => {
 
@@ -26,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 logout();
                 document.querySelector('#signin').innerHTML = "Sign In";
                 location.reload();
-        
+
             }
         };
         request.send();
@@ -172,6 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 popdown_signin_register_div();
                 popup_sucess_div(`${username} Logged In Sucessfully`);
                 setTimeout(popdown_sucess_div, 2000);
+
+                location.reload();
             }
             return false;
         };
@@ -195,8 +237,7 @@ function load_menu(name) {
     const request = new XMLHttpRequest();
     request.open('GET', `/${name}`);
     request.onload = () => {
-        document.querySelector('#menu-item').innerHTML = ""
-        console.log(request.responseText);
+        document.querySelector('#menu-item').innerHTML = "";
         const response = JSON.parse(request.responseText);
         Array.from(response).forEach((item) => {
             add_item(item);
@@ -217,26 +258,30 @@ function add_item(item) {
     const name_p = document.createElement('p');
     const price_p = document.createElement('p');
     const serving_p = document.createElement('p');
+    const cart_btn_div = document.createElement('div');
+    const cart_btn = document.createElement('button')
 
     item_div.className = "menu-item-container";
-    img_div.className = "item-image"
-    name_div.className = "name"
-    price_div.className = "price"
-    serving_div.className = "serving"
+    img_div.className = "item-image";
+    name_div.className = "name";
+    price_div.className = "price";
+    serving_div.className = "serving";
+    cart_btn_div.className = "cart-btn-div";
+    cart_btn.className = "cart-btn";
 
+    cart_btn.innerHTML = "Add to Cart"
 
+    const item_id = item.pk;
     const name = item.fields.name;
     const price = item.fields.Price;
-    const serving = item.fields.serving
+    const serving = item.fields.serving;
     const img_name = name.replace(/ /g, "_");
     const img_url = imag.concat("/".concat(img_name));
-    const img_url_c = img_url.concat(".jfif")
+    const img_url_c = img_url.concat(".jfif");
 
-    console.log(img_url_c)
 
-    image.setAttribute("src", img_url_c)
-
-    console.log(image)
+    cart_btn.value = item_id;
+    image.setAttribute("src", img_url_c);
     name_p.innerHTML = name;
     price_p.innerHTML = `Price: ${price}`;
     serving_p.innerHTML = `Serving:  ${serving}`;
@@ -248,12 +293,150 @@ function add_item(item) {
     price_div.appendChild(price_p);
     serving_div.appendChild(serving_p)
 
+
+    cart_btn.addEventListener('click', () => {
+        const req = new XMLHttpRequest();
+        const csrf = document.querySelector("[name = csrfmiddlewaretoken]").value;
+
+        req.open('POST', 'addToc/');
+        req.setRequestHeader("X-CSRFToken", csrf);
+
+        req.onload = () => {
+            const response = JSON.parse(req.responseText);
+            console.log(response.status);
+            if (response.status) {
+                popup_sucess_div("Item added to the cart");
+                setTimeout(popdown_sucess_div, 1000);
+            } else if (!response.max) {
+                popup_signin_div();
+                return false;
+            } else if (response.max) {
+                popup_error_div("Maximum Quantity Added");
+                setTimeout(popdown_error_div, 1000);
+            };
+        };
+
+        const data = new FormData();
+        data.append("item_id", item_id)
+        req.send(data);
+    });
+    cart_btn_div.appendChild(cart_btn);
+
+
     item_div.appendChild(name_div);
     item_div.appendChild(price_div);
     item_div.appendChild(serving_div);
+    item_div.appendChild(cart_btn_div);
 
     document.querySelector('#menu-item').appendChild(item_div);
 }
+
+function add_item_to_cart(item) {
+    const div1 = document.createElement('div');
+    const div2 = document.createElement('div');
+    const div3 = document.createElement('div');
+
+    const button1 = document.createElement('button');
+    const button2 = document.createElement('button');
+    const button3 = document.createElement('button');
+    const button4 = document.createElement('button');
+
+    const p1 = document.createElement('p');
+    const p2 = document.createElement('p');
+
+    const i1 = document.createElement('i');
+
+    i1.className = "fa fa-trash";
+
+    div1.className = "cart-tray-item";
+    div1.setAttribute('id', item.item_name.replace(/ /g, "_"));
+    div2.className = "item-tray-close-div";
+    div3.className = "tray-item";
+
+    button1.className = "item-tray-close";
+    button2.className = "q-neg";
+    button3.className = "q";
+    button4.className = "q-pos";
+
+    button1.appendChild(i1);
+    button1.value = item.item_cart;
+    button1.setAttribute("data-item", item.item_name.replace(/ /g, "_"));
+    button2.innerHTML = "-";
+    button3.innerHTML = item.item_quantity;
+    button4.innerHTML = "+";
+
+    p1.className = "tray-item-name";
+    p2.className = "tray-item-price";
+
+    p1.innerHTML = item.item_name;
+    p2.innerHTML = item.item_quantity * item.item_price;
+
+    div2.appendChild(button1);
+    div3.appendChild(p1);
+    div3.appendChild(p2);
+    div3.appendChild(button2);
+    div3.appendChild(button3);
+    div3.appendChild(button4);
+
+    div1.appendChild(div2);
+    div1.appendChild(div3);
+
+    document.querySelector('#cart-tray').appendChild(div1);
+
+    button1.addEventListener('click', (button) => {
+        const request = new XMLHttpRequest();
+        request.open("POST", 'remItemC/');
+        request.onload = () => {
+            const response = JSON.parse(request.responseText);
+            if (request.status) {
+                const div = document.querySelector(`#${item.item_name.replace(/ /g, "_")}`);
+                div.remove();
+            }
+        };
+        const data = new FormData();
+        data.append("cart_id", item.item_cart);
+        request.setRequestHeader("X-CSRFToken", csrf_g);
+        request.send(data);
+
+    });
+
+    button2.addEventListener('click', ()=>{
+        const request = new XMLHttpRequest();
+        request.open('POST', 'minusItem/');
+
+        request.onload = ()=>{
+            const response = JSON.parse(request.responseText);
+            if(response.status){
+                button3.innerHTML = response.item_quantity;
+                p2.innerHTML = response.item_quantity *item.item_price;
+            }
+        };
+
+        const data = new FormData();
+        data.append("cart_id", item.item_cart);
+        request.setRequestHeader("X-CSRFToken", csrf_g);
+        request.send(data);
+    });
+
+    button4.addEventListener('click', ()=>{
+        const request = new XMLHttpRequest();
+        request.open('POST', 'plusItem/');
+
+        request.onload = ()=>{
+            const response = JSON.parse(request.responseText);
+            if(response.status){
+                button3.innerHTML = response.item_quantity;
+                p2.innerHTML = response.item_quantity *item.item_price;
+            }
+        };
+
+        const data = new FormData();
+        data.append("cart_id", item.item_cart);
+        request.setRequestHeader("X-CSRFToken", csrf_g);
+        request.send(data);
+    });
+
+};
 
 function load_register() {
     signin_div.classList.remove('active');
@@ -333,7 +516,7 @@ function popup_sucess_div(content) {
 function popdown_sucess_div() {
     const div = document.querySelector('#div-sucess');
     div.classList.remove('active');
-    div.innerHTML = "";
+    //div.innerHTML = "";
 }
 
 function popup_error_div(content) {
@@ -345,10 +528,22 @@ function popup_error_div(content) {
 function popdown_error_div() {
     const div = document.querySelector('#div-error');
     div.classList.remove('active');
-    div.innerHTML = "";
+    //div.innerHTML = "";
 };
 
-function get_csrf(){
+function get_csrf() {
     const csrf = document.querySelector("[name=csrfmiddlewaretoken]");
     return csrf;
+};
+
+function popup_cart_bar() {
+    const e = document.querySelector('#cart-bar');
+    e.classList.add('active');
+    overlay_div.classList.add('active');
+}
+
+function popdown_cart_bar() {
+    const e = document.querySelector('#cart-bar');
+    e.classList.remove('active');
+    overlay_div.classList.remove('active');
 }
