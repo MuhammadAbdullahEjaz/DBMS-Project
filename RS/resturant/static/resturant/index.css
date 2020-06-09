@@ -373,6 +373,34 @@ label {
     border: none;
 }
 
+#total-price{
+    text-align: center;
+}
+
+#spacer{
+    margin-top: 20px;
+    min-height: 60px;
+    border-top: 5px solid green;
+    border-radius:60px ;
+}
+#order-div{
+    text-align: center;
+}
+
+#order{
+    width: 35%;
+    padding: 10px 0;
+    outline:  none;
+    border:  none;
+    font-size: larger;
+    background-color: red;
+    color: white ;
+    border-radius: 50px;
+}
+#order:hover{
+    cursor: pointer;
+}
+
 #cart-bar-heading{
     margin-top: 0;
     width: 100%;
@@ -380,6 +408,13 @@ label {
     border-bottom: 5px solid green;
     padding: 10px 0;
     border-radius: 50px;
+}
+
+.sticky{
+    top: 0;
+    width: 100%;
+    position: fixed;
+    background-color:  white;
 }
 
 /*******************************************/

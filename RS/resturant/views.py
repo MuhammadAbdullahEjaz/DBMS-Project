@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from datetime import date
-from .models import Menu, FoodItem, UserCart, Cart
+from .models import Menu, FoodItem, UserCart, Cart, Order, OrderItem
 from django.core import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -144,13 +144,15 @@ def get_c(request):
         usercart = list(UserCart.objects.filter(user_id = user))
         user_items = list(Cart.objects.filter(cart_id = usercart[0]))
         c =list()
+        price = 0.0
         for i in user_items:
             i_name = i.food_id.name
             i_price = i.food_id.Price
             i_quantity = i.quantity
+            price += float(i_price)*i_quantity
             d = dict(item_name = i.food_id.name, item_price = float(i.food_id.Price), item_quantity = i_quantity, item_cart = i.id)
             c.append(d)
-        context = {"status": True,"error":"" ,"user_items":c}
+        context = {"status": True,"error":"" ,"user_items":c, "amount":price}
         if user_items:
             return HttpResponse(json.dumps(context))
         else:
@@ -167,8 +169,11 @@ def remove_item_from_cart(request):
         cart = list(Cart.objects.filter(pk=cart_id))
         if cart:
             if (cart[0].cart_id.id == usercart[0].id):
+                price = float(cart[0].food_id.Price)
+                quantity = cart[0].quantity
+                price_t = price * quantity
                 cart[0].delete()
-                return HttpResponse(json.dumps({"status":True}))
+                return HttpResponse(json.dumps({"status":True, "amount":price_t}))
             else:
                 return HttpResponse(json.dumps({"status":False}))
         else:
@@ -185,7 +190,7 @@ def neg_q(request):
             if (cart[0].cart_id.id == usercart[0].id and cart[0].quantity > 1):
                 cart[0].quantity -= 1
                 cart[0].save()
-                return HttpResponse(json.dumps({"status":True, "item_quantity":cart[0].quantity}))
+                return HttpResponse(json.dumps({"status":True, "item_quantity":cart[0].quantity, "amount":float(cart[0].food_id.Price)}))
             else:
                 return HttpResponse(json.dumps({"status":False}))
         else:
@@ -203,7 +208,31 @@ def pos_q(request):
             if (cart[0].cart_id.id == usercart[0].id and cart[0].quantity < 6):
                 cart[0].quantity += 1
                 cart[0].save()
-                return HttpResponse(json.dumps({"status":True, "item_quantity":cart[0].quantity}))
+                return HttpResponse(json.dumps({"status":True, "item_quantity":cart[0].quantity, "amount":float(cart[0].food_id.Price)}))
+            else:
+                return HttpResponse(json.dumps({"status":False}))
+        else:
+            return HttpResponse(json.dumps({"status":False}))
+    else:
+        return HttpResponse(json.dumps({"status":False}))
+
+def order(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        cart_id = list(UserCart.objects.filter(user_id = request.user))
+        if(cart_id):
+            cart_q = Cart.objects.filter(cart_id = cart_id[0])
+            cart = list(cart_q)
+            if cart:
+                new_order = Order.objects.create(user_id = request.user, total_price= 0)
+                new_order.save()
+                price = 0
+                for i in cart:
+                    OrderItem.objects.create(order_id = new_order, food_id = i.food_id, quantity= i.quantity)
+                    price += i.food_id.Price*i.quantity
+                    new_order.total_price = price
+                new_order.save()
+                cart_q.delete()
+                return HttpResponse(json.dumps({"status":True}))
             else:
                 return HttpResponse(json.dumps({"status":False}))
         else:

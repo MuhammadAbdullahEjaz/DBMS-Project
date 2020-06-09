@@ -17,4 +17,5 @@ urlpatterns = [
     path('remItemC/', views.remove_item_from_cart, name="remItemC"),
     path('minusItem/', views.neg_q, name="minusItem"),
     path('plusItem/', views.pos_q, name="plusItem"),
+    path('order/', views.order , name="order"),
 ]

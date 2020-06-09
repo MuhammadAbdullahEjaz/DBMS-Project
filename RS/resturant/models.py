@@ -43,3 +43,19 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"{self.cart_id} = ({self.food_id} | {self.quantity})"
+
+class Order(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_price = models.IntegerField()
+    order_time = models.DateTimeField(auto_now = True)
+    
+    def __str__(self):
+        return f"{self.user_id.username} -- {self.id} = Total: {self.total_price} -- {self.order_time}"
+
+class OrderItem(models.Model):
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+    food_id = models.ForeignKey(FoodItem, on_delete=models.CASCADE)
+    quantity = models.IntegerField(validators = [MaxValueValidator(6), MinValueValidator(1)])
+
+    def __str__(self):
+        return f"{self.order_id.id} -- ({self.food_id} | {self.quantity})"
